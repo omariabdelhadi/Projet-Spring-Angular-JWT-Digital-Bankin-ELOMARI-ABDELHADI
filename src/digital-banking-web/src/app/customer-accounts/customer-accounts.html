@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="card" >
+    <div class="card-header">Customer Accounts</div>
+    <div class="card-body">
+      <table class="table" *ngIf="customer">
+        <thead>
+        <tr>
+          <th>Customer ID</th><th>nom_Customrt</th><th>email</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{customer.id}}</td>
+            <td>{{customer.name}}</td>
+            <td>{{customer.email}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr class="my-4">
+      <table class="table" *ngIf="AccountCustomer">
+        <thead>
+        <tr>
+          <th>Account ID</th><th>balance</th><th>data_creation</th><th>status</th><th>interest_rate</th><th>over_Draft</th><th>type_account</th><th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of AccountCustomer">
+            <td>{{a.id}}</td>
+            <td>{{a.balance}}</td>
+            <td>{{a.createAt}}</td>
+            <td>{{a.status}}</td>
+            <td>{{ a.TypeAccount === 'Saving' ? a.interestRate : 'N/A' }}</td>
+            <td>{{ a.TypeAccount === 'current' ? a.overDraft : 'N/A' }}</td>
+            <td>{{a.TypeAccount}}</td>
+            <td class="d-flex gap-2 align-items-center">
+              <button (click)="AccountOperation(a)" class="btn btn-warning btn-sm py-0 px-1" title="Operations" style="font-size: 0.75rem;">
+                <i class="bi bi-clock-history"></i> Operations
+              </button>
+              <button class="btn btn-danger" (click)="deleteAccount(a.id)" *ngIf="auths.roles.includes('ADMIN')">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

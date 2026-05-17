@@ -1,0 +1,91 @@
+<div class="container mt-2">
+  <div *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+  <div class="row">
+  <div class="col col-md-6">
+
+    <div class="card-header">Accounts</div>
+    <div class="card-body">
+      <form [formGroup]="selectAccountForm" (ngSubmit)="chercheAccount()">
+        <input type="text" formControlName="AccountId" placeholder="Account ID" class="form-control">
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+        <a routerLink="/admin/newacount" class="btn btn-success" *ngIf="auths.roles.includes('ADMIN')">
+          <i class="bi bi-plus-circle"></i> New Account
+        </a>
+      </form>
+    </div>
+    <div class="card-body" *ngIf="account">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Account ID</th><th>nom_client</th><th>balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>{{account.accountId}}</td>
+          <td>{{account.name_client}}</td>
+          <td>{{account.balance}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <table class="table" *ngIf="account.accountOperationDTOS">
+        <thead>
+          <tr>
+          <th>Operation ID</th><th>amount</th><th>description</th><th>operationDate</th><th>type</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ac of account.accountOperationDTOS">
+            <td>{{ac.id}}</td>
+            <td>{{ac.amount}}</td>
+            <td>{{ac.description}}</td>
+            <td>{{ac.operationDate}}</td>
+            <td>{{ac.type}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul class="nav nav-pills">
+       <li *ngFor="let page of getPages()">
+  <a class="btn" 
+     [class.btn-info]="page === account.currentPage"
+     [class.btn-outline-info]="page !== account.currentPage"
+     (click)="gotoPage(page)">{{page}}
+  </a>
+</li>
+ </ul>
+    </div>
+  </div>
+  <div class="col col-md-6" *ngIf="account">
+  <form [formGroup]="OperationForm" (ngSubmit)="OperationAccount()">
+    <div class="card">
+    <div class="card-header">Operations</div>
+    <div class="card-body d-flex gap-3 align-items-center">
+      <div>
+        <input type="radio" formControlName="Operationtype" value="DEBIT" id="debit">
+        <label for="debit">DEBIT:</label>
+      </div>
+      <div>
+        <input type="radio" formControlName="Operationtype" value="CREDIT" id="credit">
+        <label for="credit">CREDIT:</label>
+      </div>
+      <div>
+        <input type="radio" formControlName="Operationtype" value="TRANSFER" id="transfer">
+        <label for="transfer">TRANSFER:</label>
+      </div>
+      <div>
+      </div>
+    </div>
+    <div class="card-body">
+      <input type="text" formControlName="amount" placeholder="amount" class="form-control">
+      <input type="text" formControlName="description" placeholder="description" class="form-control">
+      <input type="text" formControlName="AccountsIdDestination" placeholder="Account ID Destination" class="form-control" *ngIf="OperationForm?.value.Operationtype === 'TRANSFER'">
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary mt-2" [disabled]="!OperationForm.valid">Operation</button>
+    </div>
+    </div>
+  </form>
+</div>
+</div>

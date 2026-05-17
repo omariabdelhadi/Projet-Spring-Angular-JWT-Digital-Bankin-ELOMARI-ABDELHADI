@@ -1,0 +1,56 @@
+<div class="container mt-3">
+  <div class="card">
+    <div class="card-header fw-bold">New Account</div>
+    <div class="card-body">
+      <form [formGroup]="newacountForm" (ngSubmit)="ajouterAccount()">
+
+        <!-- Type Account Radio -->
+        <div class="mb-3 d-flex gap-4">
+          <div>
+            <input type="radio" formControlName="TypeAccount" value="Saving" id="saving">
+            <label for="saving" class="ms-1">Saving</label>
+          </div>
+          <div>
+            <input type="radio" formControlName="TypeAccount" value="Current" id="current">
+            <label for="current" class="ms-1">Current</label>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Balance</label>
+          <input type="number" class="form-control" formControlName="balance" placeholder="Balance">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Id Customer</label>
+          <input type="number" class="form-control" formControlName="customerId" placeholder="Balance">
+        </div>
+
+        <!-- Visible seulement si Saving -->
+        <div class="mb-3" *ngIf="newacountForm.value.TypeAccount === 'Saving'">
+          <label class="form-label">Interest Rate</label>
+          <input type="number" class="form-control" formControlName="interestRate" placeholder="Interest Rate">
+        </div>
+
+        <!-- Visible seulement si Current -->
+        <div class="mb-3" *ngIf="newacountForm.value.TypeAccount === 'Current'">
+          <label class="form-label">Over Draft</label>
+          <input type="number" class="form-control" formControlName="overDraft" placeholder="Over Draft">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select class="form-select" formControlName="status">
+            <option value="CREATED">CREATED</option>
+            <option value="ACTIVATED">ACTIVATED</option>
+            <option value="SUSPENDED">SUSPENDED</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!newacountForm.valid">Save</button>
+        <a routerLink="/admin/accounts" class="btn btn-secondary ms-2">Cancel</a>
+
+      </form>
+    </div>
+  </div>
+</div>

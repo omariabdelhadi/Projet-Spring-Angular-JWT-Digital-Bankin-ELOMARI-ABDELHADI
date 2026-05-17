@@ -1,0 +1,49 @@
+<div class="container mt-2" >
+  <div class="card" *ngIf="customers">
+    <div class="card-header">Customer</div>
+    <div class="card-body">
+      <div class="input-group mb-3">
+        <a class="btn btn-primary" routerLink="/admin/newcustomer" *ngIf="auths.roles.includes('ADMIN')">New Customer</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div >
+      <form [formGroup]="searchformGroup" (ngSubmit)="getCustmersByKeyword()">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Search by keyword" formControlName="keyWord">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+      </form>
+      </div>
+    <div class="card-body">
+      <table class="table">
+  <thead>
+    <tr>
+      <th>ID</th><th>Name</th><th>Email</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of customers">
+      <td>{{c.id}}</td>
+      <td>{{c.name}}</td>
+      <td>{{c.email}}</td>
+      <td class="d-flex gap-2 align-items-center">
+        <button class="btn btn-danger" (click)="deleteCustomer(c.id)" *ngIf="auths.roles.includes('ADMIN')">
+          <i class="bi bi-trash"></i>
+        </button>
+        <button (click)="customerAccount(c)" class="btn btn-warning ms-2" title="Accounts">
+          <i class="bi bi-wallet2"></i>
+        </button>
+        <button (click)="customerUpdate(c)" class="btn btn-info ms-2" title="Update" *ngIf="auths.roles.includes('ADMIN')">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+  <div *ngIf="errorMessage">
+    {{errorMessage | json}}
+  </div>
+</div>

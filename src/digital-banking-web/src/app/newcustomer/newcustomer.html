@@ -1,0 +1,18 @@
+<div class="container mt-2">
+
+        <div class="card-header">New Customer</div>
+        <div class="card-body">
+        <form [formGroup]="saveformGroup" (ngSubmit)="saveCustomer()">
+            <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Name" formControlName="name">
+            </div>
+            <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Email" formControlName="email">
+            </div>
+            <button class="btn btn-primary" type="submit" [disabled]="!saveformGroup.valid">Save</button>
+        </form>
+        </div>
+        <div class="card-footer">
+    <a routerLink="/admin/customers" class="btn btn-secondary">Back to Customers</a>
+</div>
+</div>
